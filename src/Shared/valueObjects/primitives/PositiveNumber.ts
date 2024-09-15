@@ -1,29 +1,24 @@
 import BaseCustomError from "../BaseCustomError";
-
-type InvalidPositiveNumberErrorConfig = WithRequired<Omit<BaseCustomErrorConfig, 'message'>, 'value'>
-type configErrorPositiveNumber = Omit<InvalidPositiveNumberErrorConfig, 'value'>
-
 export class InvalidPositiveNumberError extends BaseCustomError {
-  constructor(configError: InvalidPositiveNumberErrorConfig) {
+  constructor(errorContext: CustomErrorContext) {
     super({
-      ...configError,
-      message: `The provided value "${configError.value}" is not a valid positive number.`,
+      message: errorContext.message || `The provided value "${errorContext.value}" is not a valid positive number. Expected a positive number greater or equal to 0`,
+      module: errorContext.module || 'PositiveNumber',
+      value: errorContext.value,
+      name: errorContext.name || 'InvalidPositiveNumberError',
+      context: errorContext.context,
     });
     Object.setPrototypeOf(this, InvalidPositiveNumberError.prototype);
   }
 }
 
 export default class PositiveNumber {
-  protected readonly _value: number;
-  constructor(value: number | string, configError: configErrorPositiveNumber) {
+  readonly value: number;
+  constructor(value: StringOrNumber, errorContext: Omit<CustomErrorContext, 'value'>) {
     const number = Number(value);
     if (Number.isNaN(number) || number <= 0) {
-      throw new InvalidPositiveNumberError({ ...configError, value })
+      throw new InvalidPositiveNumberError({ ...errorContext, value })
     }
-    this._value = number;
-  }
-
-  get value() {
-    return this._value;
+    this.value = number;
   }
 }

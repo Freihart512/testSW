@@ -1,12 +1,12 @@
 import { NoEmptyString, PositiveNumber } from "../../../Shared/valueObjects/primitives";
 import Rfc from "./Rfc";
-import TaxRegime from "./taxRegime";
+import TaxRegime from "./TaxRegime";
 
 interface personConstructor {
   fiscalName: string,
   rfc: string,
   postalCode: string,
-  taxRegime: defaultTypeParameter,
+  taxRegime: StringOrNumber,
   name?: string,
 }
 
@@ -20,10 +20,15 @@ export default class Person {
 
   constructor(config: personConstructor) {
     this.name = config.name || 'Persona Generica';
-    this.fiscalName = new NoEmptyString(config.fiscalName, this.ERROR_CONTEXT)
+    this.fiscalName = new NoEmptyString(config.fiscalName, {
+      name: 'EmptyFiscalName',
+      module: "Person",
+      message: "The fiscal name cant not be empty",
+      context: this.ERROR_CONTEXT
+    })
     this.rfc = new Rfc(config.rfc, this.ERROR_CONTEXT);
     this.postalCode = new PositiveNumber(config.postalCode,
-      { module: 'Person', name: 'InvalidPostalCodeError', context: this.ERROR_CONTEXT }
+      { message: " Postal Code must be a positive number", module: 'Person', name: 'InvalidPostalCodeError', context: this.ERROR_CONTEXT }
     );
     this.taxRegime = new TaxRegime(config.taxRegime, this.ERROR_CONTEXT);
 

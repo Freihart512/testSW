@@ -1,14 +1,12 @@
 import BaseCustomError from "../../../Shared/valueObjects/BaseCustomError";
 import { PositiveNumber } from "../../../Shared/valueObjects/primitives";
 
-type InvalidRfcErrorConfig = WithRequired<Pick<BaseCustomErrorConfig, 'value' | 'context'>, 'value'>
-
-class InvalidTaxRegimeError extends BaseCustomError {
-  constructor(config: InvalidRfcErrorConfig) {
+class OutOfRangeTaxRegimeError extends BaseCustomError {
+  constructor(config: CustomErrorContext) {
     super({
       ...config,
       module: 'taxRegime',
-      message: `taxRegime "${config.value}" is invalid.`
+      message: `taxRegime "${config.value}" shpuld be between 600 and 700.`
     })
   }
 }
@@ -16,14 +14,10 @@ class InvalidTaxRegimeError extends BaseCustomError {
 
 export default class TaxRegime extends PositiveNumber {
 
-  constructor(value: defaultTypeParameter, contextToError: string) {
-    try {
-      super(value, { module: 'taxRegime' })
-      if (this.value < 600 && this.value > 700) {
-        throw new Error('')
-      }
-    } catch {
-      throw new InvalidTaxRegimeError({ context: contextToError, value })
+  constructor(value: StringOrNumber, contextToError: string) {
+    super(value, { module: 'taxRegime', name: "InvaidTypeTaxRegimeError", context: contextToError })
+    if (this.value < 600 && this.value > 700) {
+      throw new OutOfRangeTaxRegimeError({ value, context: contextToError })
     }
   }
 }

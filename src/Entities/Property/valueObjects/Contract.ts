@@ -48,7 +48,7 @@ export default class Contract {
   private readonly dateFormatter = new formatters.DateFormatter();
 
 
-  constructor(startDateInMiliSeconds: defaultTypeParameter, errorContext: string) {
+  constructor(startDateInMiliSeconds: StringOrNumber, errorContext: string) {
     const { value: startDate } = new PositiveNumber(startDateInMiliSeconds, {
       module: 'Contract',
       name: 'InvalidContractEndDateError',

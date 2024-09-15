@@ -1,13 +1,12 @@
 import BaseCustomError from "../BaseCustomError";
-type EmptyStringErrorConfig = Omit<BaseCustomErrorConfig, 'message' | 'value'>
-
 export class EmptyStringError extends BaseCustomError {
-  constructor(context?: string) {
+  constructor(errorContext: CustomErrorContext) {
     super({
-      context,
-      module: 'NoEmptyString',
-      name: 'EmptyStringError',
-      message: 'String value cannot be empty.'
+      message: errorContext.message || `String value cannot be empty.`,
+      module: errorContext.module || 'NoEmptyString',
+      value: errorContext.value,
+      name: errorContext.name || 'EmptyStringError',
+      context: errorContext.context,
     });
     Object.setPrototypeOf(this, EmptyStringError.prototype);
   }
@@ -15,9 +14,9 @@ export class EmptyStringError extends BaseCustomError {
 
 export default class NoEmptyString {
   readonly value: string
-  constructor(value: string, errorContext: string) {
-    if (!value || value.trim().length === 0) {
-      throw new EmptyStringError(errorContext)
+  constructor(value: string, errorContext: Omit<CustomErrorContext, 'value'>) {
+    if (typeof value !== 'string' || value.trim().length === 0) {
+      throw new EmptyStringError({ ...errorContext, value })
     }
     this.value = value;
   }

@@ -1,8 +1,6 @@
 import BaseCustomError from "../../../Shared/valueObjects/BaseCustomError";
-type InvalidRfcErrorConfig = WithRequired<Pick<BaseCustomErrorConfig, 'value' | 'context'>, 'value'>
-
 export class InvalidRfcError extends BaseCustomError {
-  constructor(config: InvalidRfcErrorConfig) {
+  constructor(config: CustomErrorContext) {
     super({
       ...config,
       module: "RFC",
