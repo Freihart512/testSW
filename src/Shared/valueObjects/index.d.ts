@@ -8,3 +8,5 @@ interface CustomErrorContext {
 }
 
 type StringOrNumber = string | number
+
+type formattedDate =  { miliseconds: number, formatted: string }

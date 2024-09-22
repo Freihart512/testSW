@@ -3,7 +3,7 @@
 // Devuelve el RFC sin espacios ni guiones si es correcto
 // Devuelve false si es inválido
 // (debe estar en mayúsculas, guiones y espacios intermedios opcionales)
-function rfcValido(rfc: string, aceptarGenerico = true) {
+export function rfcValido(rfc: string, aceptarGenerico = true) {
   rfc = rfc.toLocaleUpperCase();
   const re = /^([A-ZÑ&]{3,4}) ?(?:- ?)?(\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])) ?(?:- ?)?([A-Z\d]{2})([A\d])$/;
   let validado = rfc.match(re);

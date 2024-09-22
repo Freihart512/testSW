@@ -1,4 +1,4 @@
-import BaseCustomError from "../BaseCustomError";
+import BaseCustomError from "../../BaseCustomError";
 export class EmptyStringError extends BaseCustomError {
   constructor(errorContext: CustomErrorContext) {
     super({

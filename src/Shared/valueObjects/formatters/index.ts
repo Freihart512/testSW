@@ -1,3 +1,3 @@
-import DateFormatter  from "./DateFormatter";
+import { DateFormatter } from "./DateFormater";
 
 export default { DateFormatter }

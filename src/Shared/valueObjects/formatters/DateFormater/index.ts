@@ -1,4 +1,4 @@
-import BaseCustomError from "../BaseCustomError";
+import BaseCustomError from "../../BaseCustomError";
 
 export class InvalidDateError extends BaseCustomError {
   constructor(errorConfig: Partial<BaseCustomError>) {
@@ -12,7 +12,7 @@ export class InvalidDateError extends BaseCustomError {
   }
 }
 
-export default class DateFormatter {
+export class DateFormatter {
   private readonly locale: string;
   private readonly options: Intl.DateTimeFormatOptions;
 
@@ -24,16 +24,16 @@ export default class DateFormatter {
     day: 'numeric'
   },) {
     this.locale = locale;
-    this.options = options;
+    this.options = { ...options, timeZone: 'UTC' };
   }
 
-  format(date: Date | number, errorConfig?: BaseCustomErrorConfig): string {
+  format(date: Date | number, errorConfig?: Omit<CustomErrorContext, 'value'>): formattedDate {
     if (typeof date === 'number') {
       date = new Date(date);
     }
     if (!(date instanceof Date) || isNaN(date.getTime())) {
-      throw new InvalidDateError(errorConfig || {});
+      throw new InvalidDateError({ ...errorConfig, value: date });
     }
-    return date.toLocaleDateString(this.locale, this.options);
+    return { miliseconds: date.getTime(), formatted: date.toLocaleDateString(this.locale, this.options) };
   }
 }

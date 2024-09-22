@@ -1,4 +1,6 @@
-import BaseCustomError from "../../../Shared/valueObjects/BaseCustomError";
+import BaseCustomError from "../../../../Shared/valueObjects/BaseCustomError";
+import { rfcValido } from "../../../../utils/validations";
+
 export class InvalidRfcError extends BaseCustomError {
   constructor(config: CustomErrorContext) {
     super({

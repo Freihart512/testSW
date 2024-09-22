@@ -1,7 +1,7 @@
-import { PositiveNumber } from "../../../Shared/valueObjects/primitives";
+import { PositiveNumber } from "../../../../Shared/valueObjects/primitives";
 
-import BaseCustomError from "../../../Shared/valueObjects/BaseCustomError";
-import formatters from '../../../Shared/valueObjects/formatters'
+import BaseCustomError from "../../../../Shared/valueObjects/BaseCustomError";
+import formatters from '../../../../Shared/valueObjects/formatters'
 
 
 class InvalidContractValueError extends BaseCustomError {
@@ -9,8 +9,8 @@ class InvalidContractValueError extends BaseCustomError {
     super({
       value,
       module: "Contract",
-      message: message || `Contract: "${value}" is invalid, start date must a number or staring value in miliseconds between 01-01-2020 and 01-01-2100.`,
-      name: name || 'InvalidContractValueError',
+      message: message,
+      name: name,
       context: errorContext
     })
   }
@@ -42,24 +42,24 @@ export class InvalidContractEndDateError extends InvalidContractValueError {
 export default class Contract {
   private readonly startDate!: number;
   private readonly endDate!: number;
-  private readonly MINIMUM_DATE_IN_MILISECONDS = 1577858400000; // 01-01-2020
-  private readonly MAXIMUM_DATE_IN_MILISECONDS = 4102466400000; // 01-01-2100
+  private readonly MINIMUM_DATE_IN_MILISECONDS = 1577836800000; // 01-01-2020 utc
+  private readonly MAXIMUM_DATE_IN_MILISECONDS = 4102466400000; // 01-01-2100 utc
   private readonly MILISECONDS_IN_A_YEAR = 31557600000;
   private readonly dateFormatter = new formatters.DateFormatter();
 
 
   constructor(startDateInMiliSeconds: StringOrNumber, errorContext: string) {
-    const { value: startDate } = new PositiveNumber(startDateInMiliSeconds, {
+    const startDate = new PositiveNumber(startDateInMiliSeconds, {
       module: 'Contract',
       name: 'InvalidContractEndDateError',
       context: errorContext
     });
-    this.validateStartDate(startDate, errorContext)
+    this.validateStartDate(startDate.value, errorContext)
 
-    const endDate = startDate + this.MILISECONDS_IN_A_YEAR;
+    const endDate = startDate.value + this.MILISECONDS_IN_A_YEAR;
     this.validateEndDate(endDate, errorContext)
 
-    this.startDate = startDate;
+    this.startDate = startDate.value;
     this.endDate = endDate;
 
   }
@@ -76,10 +76,10 @@ export default class Contract {
     }
   }
 
-  get value() {
+  getPeriod(): contractValue {
     return {
-      startDate: { miliseconds: this.startDate, formatedDate: this.dateFormatter.format(this.startDate) },
-      endDate: { miliseconds: this.endDate, formatedDate: this.dateFormatter.format(this.startDate) }
+      startDate: this.dateFormatter.format(this.startDate),
+      endDate: this.dateFormatter.format(this.endDate)
     }
   }
 

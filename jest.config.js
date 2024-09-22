@@ -1,13 +1,22 @@
 module.exports = {
-	testEnvironment: "node",
-	moduleFileExtensions: ["ts", "js"],
-	testMatch: ["**/test/**/*.spec.(ts|js)"],
-	transform: {
-		"^.+\\.(ts|tsx)$": [
-			"ts-jest",
-			{
-				tsconfig: "tsconfig.json",
-			},
-		],
-	},
+  testEnvironment: "node",
+  moduleFileExtensions: ["ts", "js"],
+  testMatch: ["**/src/**/*.test.ts"],
+  transform: {
+    "^.+\\.(ts)$": [
+      "ts-jest",
+      {
+        tsconfig: "tsconfig.json",
+      },
+    ],
+  },
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80,
+      statements: 80,
+    },
+  },
+  collectCoverageFrom: ["**/*.ts"],
 };

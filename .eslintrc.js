@@ -14,6 +14,7 @@ module.exports = {
           singleQuote: true,
           parser: "flow",
           useTabs: false,
+          PrintWidth: 80,
         },
       ],
     },

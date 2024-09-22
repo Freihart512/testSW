@@ -1,4 +1,4 @@
-import BaseCustomError from "../BaseCustomError";
+import BaseCustomError from "../../BaseCustomError";
 export class InvalidPositiveNumberError extends BaseCustomError {
   constructor(errorContext: CustomErrorContext) {
     super({
@@ -16,7 +16,7 @@ export default class PositiveNumber {
   readonly value: number;
   constructor(value: StringOrNumber, errorContext: Omit<CustomErrorContext, 'value'>) {
     const number = Number(value);
-    if (Number.isNaN(number) || number <= 0) {
+    if (Number.isNaN(number) || number < 0) {
       throw new InvalidPositiveNumberError({ ...errorContext, value })
     }
     this.value = number;

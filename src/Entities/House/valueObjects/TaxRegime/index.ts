@@ -1,7 +1,7 @@
-import BaseCustomError from "../../../Shared/valueObjects/BaseCustomError";
-import { PositiveNumber } from "../../../Shared/valueObjects/primitives";
+import BaseCustomError from "../../../../Shared/valueObjects/BaseCustomError";
+import { PositiveNumber } from "../../../../Shared/valueObjects/primitives";
 
-class OutOfRangeTaxRegimeError extends BaseCustomError {
+export class OutOfRangeTaxRegimeError extends BaseCustomError {
   constructor(config: CustomErrorContext) {
     super({
       ...config,
@@ -16,7 +16,7 @@ export default class TaxRegime extends PositiveNumber {
 
   constructor(value: StringOrNumber, contextToError: string) {
     super(value, { module: 'taxRegime', name: "InvaidTypeTaxRegimeError", context: contextToError })
-    if (this.value < 600 && this.value > 700) {
+    if (this.value < 600 || this.value > 700) {
       throw new OutOfRangeTaxRegimeError({ value, context: contextToError })
     }
   }

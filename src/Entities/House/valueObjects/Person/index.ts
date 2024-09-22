@@ -1,11 +1,11 @@
-import { NoEmptyString, PositiveNumber } from "../../../Shared/valueObjects/primitives";
-import Rfc from "./Rfc";
-import TaxRegime from "./TaxRegime";
+import { NoEmptyString, PositiveNumber } from "../../../../Shared/valueObjects/primitives";
+import Rfc from "../Rfc";
+import TaxRegime from "../TaxRegime";
 
 interface personConstructor {
   fiscalName: string,
   rfc: string,
-  postalCode: string,
+  postalCode: StringOrNumber,
   taxRegime: StringOrNumber,
   name?: string,
 }
