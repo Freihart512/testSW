@@ -1,6 +1,6 @@
 import BaseCustomError from "../../Shared/valueObjects/BaseCustomError";
 import { Id, PositiveNumber } from "../../Shared/valueObjects/primitives";
-import Rent from "./Rent";
+import Rent from "./_Rent";
 import Contract from "./valueObjects/Contract";
 import Person from "./valueObjects/Person";
 
@@ -39,13 +39,7 @@ export default class House {
    * @private
    */
   private _owner: Person;
-
-  /**
-   * The rental details of the house, if it is currently rented.
-   * @private
-   */
-  private _rental: Rent | null;
-
+  
   /**
    * The rental details of the house, if it is currently rented.
    * @public

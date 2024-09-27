@@ -9,14 +9,19 @@
     "build": "tsc",
     "lint": "eslint --ignore-path .gitignore . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest --coverage --verbose"
+    "test": "jest --coverage --verbose",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d src//Postgres/index.ts",
+    "migration:generate": "npm run typeorm -- migration:generate src/Postgres/migrations/MigrationName-$(date +%Y%m%d%H%M%S)",
+    "migration:create": "npm run typeorm -- migration:create src/Postgres/migrations/MigrationName-$(date +%Y%m%d%H%M%S)",
+    "migration:run": "npm run typeorm -- migration:run",
+    "migration:revert": "npm run typeorm -- migration:revert"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.4.7",
+    "@types/node": "^20.16.5",
     "@types/supertest": "^2.0.12",
     "@types/uuid": "^10.0.0",
     "eslint": "^8.46.0",
@@ -32,7 +37,10 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.18.2",
+    "pg": "^8.13.0",
+    "reflect-metadata": "^0.2.2",
     "sw-sdk-nodejs": "^1.1.4",
+    "typeorm": "^0.3.20",
     "uuid": "^10.0.0"
   }
 }
